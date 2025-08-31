@@ -1,0 +1,134 @@
+server:
+  address: 0.0.0.0:9091
+#  root_path: /authelia
+#  base_path: /authelia
+#  base_url: https://172.184.110.25/authelia
+log:
+  level: debug
+
+session:
+  cookies:
+    - name: authelia_session
+      domain: 172.184.110.25
+      authelia_url: https://172.184.110.25/
+#      default_redirection_url: https://172.184.110.25/
+  secret: "supersecretlongrandomstring"
+
+storage:
+  local:
+    path: /config/db.sqlite3
+  encryption_key: "anotherlongrandomstring"
+
+identity_validation:
+  reset_password:
+    jwt_secret: "yetanotherlongrandomstring"
+
+identity_providers:
+  oidc:
+    hmac_secret: "hmackeysupersecret"
+    issuer_private_key: |
+      -----BEGIN PRIVATE KEY-----
+      MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQC2jrCWRRo1VrTq
+      y5Wus3ErJfo+1E9pRlm5LhPqgcDltohmjta1YJEArDLxPXSk2Z/s1z7Itfql86A2
+      nVpjfqROaNeaMK8iciCpfI7wA7YtciPBH7a5h7DMDO8ODZDAbtRsKfXjHWbkniMp
+      H5KI6EWzveFzRKlK8RlmoP+TzbT1agcUk1A0zXtQBmEGXTqmQSZyEsGW8A2nJs02
+      PX1RzY3A4T+IBsFKYmWvQQy6q5sRHi6/5qbnZe4D50lieIBYvIDbbW9vZSoxdHl+
+      UgHZ+PKbV7YnU0UgKDut8ycm2l46qlexIL/gZQR7Mwl5z3ur9UskJzoCQZlF27p5
+      eVoIqRqjAgMBAAECggEARHdhbQo/mQ+KzKBL4/hykg8tOlEf80iqL9RDLek58i0y
+      HNynU+ECoPD0LhuxWn4wB4B2kIoHliO3y6PaGYSOlMWnTrHBjTamX0pSxVtvAL5V
+      AIInYo+sU+rp4ShfSHyIeISILoSBaW6Rm0O3DlemhJHLMxLmNzATKbVqBQHaQ0u8
+      Q5SsPeVT6h0L4FcjT0QR9LUf0eeYVEkZRyQ8qM2QyQl6KF4yC29/IuqMd8L7fxTZ
+      HBBimDLxq88MEPCU9zLJd5icne4wWN+mPybLyfOPTO7rpPq+Z2E7xpn3Ql3lsilm
+      MCWqQ2SWrP4FkFUMogUeWVSje2NzbbR0se/M3Z7HIQKBgQDz5ql9ybm/NcbeMivn
+      AyoYDUQ0/CBoj/iJS9N/F0C4SnE6gMMU2Zvs2ZUc+0rmf59501ChBe0bB6A6v9Eu
+      7v4KmhCmFIL9ALDJV65PfoH0Qy+OozfuRxoc3BJVncsibV3g1tL1fSpfYVCX5fvh
+      /KuY3402KcXR6b3s4ZgPHkH3sQKBgQC/nQPaE/zv/MiJPaCpF1e+cpCSd+JL4klx
+      kFjEoZOuWLg/ldjxV5sl/yjQJ4mVRPgt87R7LD+3yHQYOmODyMF8YtDdKNGXoprO
+      cOPt15zZ0qZnXQuGUeik6Mt1PbkrqFAIeaE0BRtQkE+Mr15wGxGoXmE+HpcZqSEJ
+      wklQMR3gkwKBgCU1VToZYjrna1VOdiAh/XP54iPrKs6I2DOp27QRyg/TW36/UgOG
+      RyFU+EiZlY2gfqXJNQ27p7Zt7WXJCZKNZzga1NthWbJbPp0YwUDjXdPzw/eQsuGo
+      +zTX5fwlvG2eHapFW52T4Lj4UaE6trh9IXiK8jIHIWSqsgzHRblYtluhAoGAOii6
+      ZpLyjxU2+REPlsNTCqdTYmGo+kdw61tY1jYE0UJ0ijg9ZOOmX94W0Tdu9zO78Jas
+      DUbdADeDpWbzlah1sf98TeR52YCtZEO3qxVqsmLRx0XinZ528rcGKkvVzH6F7Eye
+      tV9nbwieXKFOFNDihyw+b9BxJITFVmT2Q7Tk0KkCgYAxVFMBRuC8msPxuWZDgy/C
+      sfmWd9TOKm8a1Zux5nfKn5fjRDZ/dwXw81w05ow4jlZZHwjVaTaDRiffe4mEpFqr
+      0Ui3PjjySylsKyNuJ5U6PS2YLL3ShQgpm+EWiWQii0LnXi63kKT09VvJ2fWdKm2P
+      oXaV0tUDxU+3zwbRlduglg==
+      -----END PRIVATE KEY-----
+#    clients:
+#      - client_id: gitea
+#        client_secret: giteasecret
+#        redirect_uris:
+#          - https://172.184.110.25/gitea/user/oauth2/authelia/callback
+#      - client_id: grafana
+#        client_secret: grafanasecret
+#        redirect_uris:
+#          - https://172.184.110.25/grafana/login/generic_oauth
+    clients:
+      - client_id: gitea
+        client_secret: giteasecret
+        redirect_uris:
+          - https://172.184.110.25/gitea/user/oauth2/authelia/callback
+        grant_types:
+          - authorization_code
+        response_types:
+          - code
+        scopes:
+          - openid
+          - email
+          - profile
+      - client_id: grafana
+        client_secret: grafanasecret
+        redirect_uris:
+          - https://172.184.110.25/grafana/login/generic_oauth
+        grant_types:
+          - authorization_code
+        response_types:
+          - code
+        scopes:
+          - openid
+          - email
+          - profile 
+    
+authentication_backend:
+  file:
+    path: /config/users.yml
+
+#access_control:
+#  default_policy: deny
+#  rules:
+#    - domain: 172.184.110.25
+#      policy: one_factor
+#      networks:
+#        - 0.0.0.0/0
+access_control:
+  default_policy: deny
+
+  rules:
+     # Allow unauthenticated access to Authelia verify API
+    - domain: 172.184.110.25
+      resources:
+        - "^/api/verify$"
+      policy: one_factor
+
+    - domain: 172.184.110.25
+      resources:
+        - "^/gitea/.*$"
+      policy: one_factor  # or two_factor based on your needs
+
+    - domain: 172.184.110.25
+      resources:
+        - "^/grafana/.*$"
+      policy: one_factor
+
+notifier:
+#  filesystem:
+#    filename: /config/notification.txt
+  smtp:
+    username: "dexter363012@gmail.com"
+    password: "rbymgljrjjcupdtx"
+    host: "smtp.gmail.com"
+    port: 465
+    sender: "dexter363012@gmail.com"
+    subject: "[Authelia] OTP Verification"
+    startup_check_address: "dexter363012@gmail.com"

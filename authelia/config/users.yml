@@ -1,0 +1,8 @@
+users:
+  nishant:
+    displayname: "Nishant Amera"
+    email: nishant220199@gmail.com
+    groups:
+      - admins
+      - dev
+    password: "$argon2id$v=19$m=65536,t=3,p=4$eJeMh231CiorfvVhNYqLKg$887ak5X6oiX/fYZVdYqZQ7utikHtqgI/Osza2+X3LdA"
