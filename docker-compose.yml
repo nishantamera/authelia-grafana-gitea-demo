@@ -23,11 +23,12 @@ services:
   gitea:
     image: gitea/gitea:latest
     container_name: gitea
+    user: "1000:1000"  
     environment:
       - USER_UID=1000
       - USER_GID=1000
+  #    - GITEA_METRICS_ENABLED=true
       - GITEA__server__ROOT_URL=https://172.184.110.25/gitea/
-      #- GITEA__openid_signin__ENABLE=true
       - GITEA__openid__ENABLE_OPENID_SIGNIN=true
       - GITEA__openid__ENABLE_OPENID_SIGNUP=true
       - GITEA__openid_signin__PROVIDER=openidConnect
@@ -36,7 +37,10 @@ services:
       - GITEA__openid_signin__OPENID_AUTO_DISCOVER_URL=https://172.184.110.25/.well-known/openid-configuration
       - GITEA__openid_signin__SCOPES=openid email profile
     volumes:
+ #     - ./app.ini:/data/gitea/conf/app.ini:ro
       - gitea-data:/data
+      - ./enable_metrics.sh:/enable_metrics.sh
+    entrypoint: ["/bin/sh", "/enable_metrics.sh"]
     expose:
       - 3000
 
@@ -48,9 +52,10 @@ services:
       - ./authelia/db:/var/lib/authelia
     environment:
       - TZ=Asia/Kolkata
-      - AUTHELIA_DISABLE_SAFE_REDIRECTION=true
+#      - AUTHELIA_DISABLE_SAFE_REDIRECTION=true
     ports:
       - "9091:9091"
+      - "9959:9959"  
 
   nginx:
     image: nginx:latest
@@ -65,7 +70,27 @@ services:
       - grafana
       - gitea
       - authelia
+ 
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    ports:
+      - "9090:9090"
 
+  loki:
+    image: grafana/loki:2.8.0
+    ports:
+      - "3100:3100"
+
+  promtail:
+    image: grafana/promtail:2.8.0
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./promtail-config.yml:/etc/promtail/promtail-config.yml:ro
+    ports:
+      - "9080:9080"
+    
 volumes:
   grafana-storage:
   gitea-data:

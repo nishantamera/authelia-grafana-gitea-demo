@@ -109,17 +109,29 @@ access_control:
     - domain: 172.184.110.25
       resources:
         - "^/api/verify$"
-      policy: one_factor
+      policy: two_factor
 
-    - domain: 172.184.110.25
-      resources:
-        - "^/gitea/.*$"
-      policy: one_factor  # or two_factor based on your needs
+   # - domain: 172.184.110.25
+   #   resources:
+   #     - "^/gitea/.*$"
+   #   policy: one_factor  # or two_factor based on your needs
 
-    - domain: 172.184.110.25
-      resources:
-        - "^/grafana/.*$"
-      policy: one_factor
+   # - domain: 172.184.110.25
+   #   resources:
+   #     - "^/grafana/.*$"
+   #   policy: one_factor
+
+telemetry:
+  metrics:
+    enabled: true
+    address: 'tcp://:9959/metrics'
+    buffers:
+      read: 4096
+      write: 4096
+    timeouts:
+      read: '6s'
+      write: '6s'
+      idle: '30s'
 
 notifier:
 #  filesystem:
