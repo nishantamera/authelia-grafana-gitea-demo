@@ -1,8 +1,6 @@
 server:
   address: 0.0.0.0:9091
-#  root_path: /authelia
-#  base_path: /authelia
-#  base_url: https://172.184.110.25/authelia
+
 log:
   level: debug
 
@@ -11,7 +9,6 @@ session:
     - name: authelia_session
       domain: 172.184.110.25
       authelia_url: https://172.184.110.25/
-#      default_redirection_url: https://172.184.110.25/
   secret: "supersecretlongrandomstring"
 
 storage:
@@ -55,15 +52,6 @@ identity_providers:
       0Ui3PjjySylsKyNuJ5U6PS2YLL3ShQgpm+EWiWQii0LnXi63kKT09VvJ2fWdKm2P
       oXaV0tUDxU+3zwbRlduglg==
       -----END PRIVATE KEY-----
-#    clients:
-#      - client_id: gitea
-#        client_secret: giteasecret
-#        redirect_uris:
-#          - https://172.184.110.25/gitea/user/oauth2/authelia/callback
-#      - client_id: grafana
-#        client_secret: grafanasecret
-#        redirect_uris:
-#          - https://172.184.110.25/grafana/login/generic_oauth
     clients:
       - client_id: gitea
         client_secret: giteasecret
@@ -88,38 +76,20 @@ identity_providers:
         scopes:
           - openid
           - email
-          - profile 
-    
+          - profile
+
 authentication_backend:
   file:
     path: /config/users.yml
 
-#access_control:
-#  default_policy: deny
-#  rules:
-#    - domain: 172.184.110.25
-#      policy: one_factor
-#      networks:
-#        - 0.0.0.0/0
 access_control:
   default_policy: deny
 
   rules:
-     # Allow unauthenticated access to Authelia verify API
     - domain: 172.184.110.25
       resources:
         - "^/api/verify$"
       policy: two_factor
-
-   # - domain: 172.184.110.25
-   #   resources:
-   #     - "^/gitea/.*$"
-   #   policy: one_factor  # or two_factor based on your needs
-
-   # - domain: 172.184.110.25
-   #   resources:
-   #     - "^/grafana/.*$"
-   #   policy: one_factor
 
 telemetry:
   metrics:
@@ -134,8 +104,6 @@ telemetry:
       idle: '30s'
 
 notifier:
-#  filesystem:
-#    filename: /config/notification.txt
   smtp:
     username: "dexter363012@gmail.com"
     password: "rbymgljrjjcupdtx"
